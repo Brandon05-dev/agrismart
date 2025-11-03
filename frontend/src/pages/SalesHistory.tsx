@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
+import { Order, SalesStatistics, User } from '../types';
 import api from '../utils/api';
 import './SalesHistory.css';
 
-const SalesHistory = () => {
-  const [sales, setSales] = useState([]);
-  const [statistics, setStatistics] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+const SalesHistory: React.FC = () => {
+  const [sales, setSales] = useState<Order[]>([]);
+  const [statistics, setStatistics] = useState<SalesStatistics | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     fetchSalesHistory();
   }, []);
 
-  const fetchSalesHistory = async () => {
+  const fetchSalesHistory = async (): Promise<void> => {
     try {
-      const response = await api.get('/farmer/sales');
+      const response = await api.get<{ data: Order[]; statistics: SalesStatistics }>('/farmer/sales');
       setSales(response.data.data);
       setStatistics(response.data.statistics);
       setError('');
@@ -24,6 +25,20 @@ const SalesHistory = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getBuyerInfo = (order: Order): string => {
+    if (typeof order.buyerId === 'string') {
+      return 'Unknown';
+    }
+    return (order.buyerId as User).username || 'Unknown';
+  };
+
+  const getBuyerEmail = (order: Order): string | undefined => {
+    if (typeof order.buyerId === 'string') {
+      return undefined;
+    }
+    return (order.buyerId as User).email;
   };
 
   if (loading) {
@@ -78,9 +93,9 @@ const SalesHistory = () => {
                 </div>
 
                 <div className="sale-buyer">
-                  <strong>Buyer:</strong> {order.buyerId?.username || 'Unknown'}
-                  {order.buyerId?.email && (
-                    <span> ({order.buyerId.email})</span>
+                  <strong>Buyer:</strong> {getBuyerInfo(order)}
+                  {getBuyerEmail(order) && (
+                    <span> ({getBuyerEmail(order)})</span>
                   )}
                 </div>
 

@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Product } from '../types';
 import api from '../utils/api';
 import './InventoryTable.css';
 
-const InventoryTable = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+const InventoryTable: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
 
   useEffect(() => {
     fetchInventory();
   }, []);
 
-  const fetchInventory = async () => {
+  const fetchInventory = async (): Promise<void> => {
     try {
-      const response = await api.get('/farmer/inventory');
+      const response = await api.get<{ data: Product[] }>('/farmer/inventory');
       setProducts(response.data.data);
       setError('');
     } catch (err) {
@@ -25,7 +26,7 @@ const InventoryTable = () => {
     }
   };
 
-  const handleDelete = async (productId) => {
+  const handleDelete = async (productId: string): Promise<void> => {
     if (!window.confirm('Are you sure you want to delete this product?')) {
       return;
     }
@@ -39,9 +40,9 @@ const InventoryTable = () => {
     }
   };
 
-  const toggleAvailability = async (product) => {
+  const toggleAvailability = async (product: Product): Promise<void> => {
     try {
-      const response = await api.put(`/products/${product._id}`, {
+      const response = await api.put<{ data: Product }>(`/products/${product._id}`, {
         ...product,
         isAvailable: !product.isAvailable
       });

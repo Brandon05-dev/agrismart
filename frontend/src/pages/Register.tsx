@@ -1,10 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Auth.css';
 
-const Register = () => {
-  const [formData, setFormData] = useState({
+interface RegisterFormData {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: 'Buyer' | 'Farmer';
+  farmName: string;
+  phone: string;
+}
+
+const Register: React.FC = () => {
+  const [formData, setFormData] = useState<RegisterFormData>({
     username: '',
     email: '',
     password: '',
@@ -13,20 +23,20 @@ const Register = () => {
     farmName: '',
     phone: ''
   });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError('');
 
@@ -54,7 +64,7 @@ const Register = () => {
 
     const result = await register(userData);
 
-    if (result.success) {
+    if (result.success && result.user) {
       // Redirect based on user role
       if (result.user.role === 'Farmer') {
         navigate('/dashboard/farmer');
@@ -62,7 +72,7 @@ const Register = () => {
         navigate('/marketplace');
       }
     } else {
-      setError(result.message);
+      setError(result.message || 'Registration failed');
     }
 
     setLoading(false);

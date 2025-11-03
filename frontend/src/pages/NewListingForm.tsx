@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, ChangeEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { ProductFormData } from '../types';
 import api from '../utils/api';
 import './NewListingForm.css';
 
-const NewListingForm = () => {
-  const [formData, setFormData] = useState({
+const NewListingForm: React.FC = () => {
+  const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
     category: 'Vegetables',
@@ -13,22 +14,22 @@ const NewListingForm = () => {
     quantityAvailable: '',
     imageUrl: ''
   });
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
   const categories = ['Vegetables', 'Fruits', 'Grains', 'Dairy', 'Poultry', 'Other'];
   const units = ['kg', 'lb', 'dozen', 'liter', 'piece'];
 
-  const handleChange = (e) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>): void => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
     setError('');
     setLoading(true);
@@ -36,7 +37,7 @@ const NewListingForm = () => {
     try {
       await api.post('/products', formData);
       navigate('/dashboard/farmer/inventory');
-    } catch (err) {
+    } catch (err: any) {
       console.error('Error creating product:', err);
       setError(err.response?.data?.message || 'Failed to create product');
     } finally {
@@ -71,7 +72,7 @@ const NewListingForm = () => {
                 name="description"
                 value={formData.description}
                 onChange={handleChange}
-                rows="4"
+                rows={4}
                 placeholder="Describe your product..."
               />
             </div>

@@ -1,8 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Product, User } from '../types';
 import './ProductCard.css';
 
-const ProductCard = ({ product }) => {
+interface ProductCardProps {
+  product: Product;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const {
     _id,
     name,
@@ -20,6 +25,14 @@ const ProductCard = ({ product }) => {
   // Calculate savings
   const savings = officialMarketPrice > 0 ? (officialMarketPrice - unitPrice).toFixed(2) : 0;
   const isBelowMarket = unitPrice < officialMarketPrice;
+
+  // Type guard to check if farmerId is a User object
+  const getFarmerName = (): string => {
+    if (typeof farmerId === 'string') {
+      return 'Unknown Farmer';
+    }
+    return (farmerId as User).farmName || (farmerId as User).username;
+  };
 
   return (
     <div className="product-card">
@@ -43,7 +56,7 @@ const ProductCard = ({ product }) => {
         )}
 
         <div className="product-farmer">
-          <span>🌾 {farmerId?.farmName || farmerId?.username}</span>
+          <span>🌾 {getFarmerName()}</span>
         </div>
 
         <div className="product-pricing">

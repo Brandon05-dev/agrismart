@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
-const Header = () => {
+const Header: React.FC = () => {
   const { user, logout, isAuthenticated, isFarmer } = useAuth();
 
   return (

@@ -1,19 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FarmerStats } from '../types';
 import api from '../utils/api';
 import './FarmerDashboard.css';
 
-const FarmerDashboard = () => {
-  const [stats, setStats] = useState(null);
-  const [loading, setLoading] = useState(true);
+const FarmerDashboard: React.FC = () => {
+  const [stats, setStats] = useState<FarmerStats | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     fetchDashboardStats();
   }, []);
 
-  const fetchDashboardStats = async () => {
+  const fetchDashboardStats = async (): Promise<void> => {
     try {
-      const response = await api.get('/farmer/dashboard-stats');
+      const response = await api.get<{ data: FarmerStats }>('/farmer/dashboard-stats');
       setStats(response.data.data);
     } catch (error) {
       console.error('Error fetching dashboard stats:', error);

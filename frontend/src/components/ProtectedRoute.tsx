@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
-export const ProtectedRoute = ({ children, requiredRole }) => {
+interface ProtectedRouteProps {
+  children: ReactNode;
+  requiredRole?: 'Farmer' | 'Buyer' | 'Admin';
+}
+
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, requiredRole }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -17,10 +22,14 @@ export const ProtectedRoute = ({ children, requiredRole }) => {
     return <Navigate to="/" replace />;
   }
 
-  return children;
+  return <>{children}</>;
 };
 
-export const PublicRoute = ({ children }) => {
+interface PublicRouteProps {
+  children: ReactNode;
+}
+
+export const PublicRoute: React.FC<PublicRouteProps> = ({ children }) => {
   const { user, loading } = useAuth();
 
   if (loading) {
@@ -36,5 +45,5 @@ export const PublicRoute = ({ children }) => {
     }
   }
 
-  return children;
+  return <>{children}</>;
 };

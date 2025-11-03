@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
 import ProductCard from '../components/ProductCard';
+import { Product } from '../types';
 import api from '../utils/api';
 import './Marketplace.css';
 
-const Marketplace = () => {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-  const [sortBy, setSortBy] = useState('createdAt');
+const Marketplace: React.FC = () => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>('');
+  const [search, setSearch] = useState<string>('');
+  const [category, setCategory] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('createdAt');
 
   const categories = ['All', 'Vegetables', 'Fruits', 'Grains', 'Dairy', 'Poultry', 'Other'];
 
   useEffect(() => {
     fetchProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [category, sortBy]);
 
-  const fetchProducts = async () => {
+  const fetchProducts = async (): Promise<void> => {
     try {
       setLoading(true);
-      const params = {
+      const params: any = {
         sortBy,
         order: 'desc'
       };
@@ -33,7 +35,7 @@ const Marketplace = () => {
         params.search = search;
       }
 
-      const response = await api.get('/products', { params });
+      const response = await api.get<{ data: Product[] }>('/products', { params });
       setProducts(response.data.data);
       setError('');
     } catch (err) {
@@ -44,7 +46,7 @@ const Marketplace = () => {
     }
   };
 
-  const handleSearch = (e) => {
+  const handleSearch = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
     fetchProducts();
   };
@@ -63,7 +65,7 @@ const Marketplace = () => {
               type="text"
               placeholder="Search products..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
               className="search-input"
             />
             <button type="submit" className="btn btn-primary">Search</button>
@@ -73,7 +75,7 @@ const Marketplace = () => {
             <label>Category:</label>
             <select 
               value={category} 
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}
               className="filter-select"
             >
               {categories.map(cat => (
@@ -88,7 +90,7 @@ const Marketplace = () => {
             <label>Sort by:</label>
             <select 
               value={sortBy} 
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setSortBy(e.target.value)}
               className="filter-select"
             >
               <option value="createdAt">Newest</option>
