@@ -14,18 +14,18 @@ const Header: React.FC = () => {
             <h1>🌾 AgriSmart</h1>
           </Link>
 
-          <nav className="nav">
-            <Link to="/marketplace" className="nav-link">Marketplace</Link>
+                    <nav className="nav">
+            <Link to="/marketplace" className="nav-link">Browse Products</Link>
             
             {isAuthenticated ? (
               <>
                 {isFarmer() ? (
-                  <Link to="/dashboard/farmer" className="nav-link">Dashboard</Link>
+                  <Link to="/dashboard/farmer" className="nav-link">My Dashboard</Link>
                 ) : (
                   <Link to="/orders" className="nav-link">My Orders</Link>
                 )}
                 <span className="user-info">
-                  {user?.username} ({user?.role})
+                  {user?.farmName || user?.organizationName || user?.username} ({user?.role})
                 </span>
                 <button onClick={logout} className="btn btn-secondary">
                   Logout

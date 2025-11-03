@@ -5,6 +5,8 @@ export interface User {
   email: string;
   role: 'Farmer' | 'Buyer' | 'Admin';
   farmName?: string;
+  organizationName?: string;
+  organizationType?: 'Company' | 'Institution' | 'School' | 'Hospital' | 'Restaurant' | 'Hotel' | 'Other';
   phone?: string;
   createdAt: string;
 }
@@ -37,7 +39,53 @@ export interface ProductFormData {
   imageUrl: string;
 }
 
-// Order types
+// Tender types
+export interface TenderRequirement {
+  productCategory: string;
+  productName: string;
+  quantity: number;
+  unit: string;
+  qualityStandards?: string;
+}
+
+export interface DeliverySchedule {
+  startDate: string;
+  endDate: string;
+  frequency?: 'One-time' | 'Weekly' | 'Monthly' | 'Quarterly';
+}
+
+export interface Tender {
+  _id: string;
+  title: string;
+  description: string;
+  buyerId: User | string;
+  requirements: TenderRequirement[];
+  deliveryLocation: string;
+  deliverySchedule: DeliverySchedule;
+  budgetRange: {
+    min: number;
+    max: number;
+  };
+  closingDate: string;
+  status: 'Open' | 'Closed' | 'Awarded' | 'Cancelled';
+  createdAt: string;
+  updatedAt: string;
+}
+
+// Bid types
+export interface Bid {
+  _id: string;
+  tenderId: string | Tender;
+  farmerId: User | string;
+  proposedPrice: number;
+  deliveryTerms: string;
+  qualityCertificates?: string[];
+  farmerNotes?: string;
+  status: 'Pending' | 'Accepted' | 'Rejected' | 'Withdrawn';
+  submittedAt: string;
+}
+
+// Order types (for awarded tenders)
 export interface OrderProduct {
   productId: string;
   productName: string;
@@ -58,6 +106,8 @@ export interface Order {
   _id: string;
   buyerId: User | string;
   farmerId: User | string;
+  tenderId?: string;
+  bidId?: string;
   products: OrderProduct[];
   totalAmount: number;
   farmerTotal: number;
@@ -80,6 +130,8 @@ export interface RegisterData {
   password: string;
   role: 'Farmer' | 'Buyer';
   farmName?: string;
+  organizationName?: string;
+  organizationType?: string;
   phone?: string;
 }
 

@@ -68,13 +68,13 @@ const FarmerDashboard: React.FC = () => {
 
         <div className="dashboard-actions">
           <Link to="/dashboard/farmer/new-listing" className="btn btn-primary">
-            + Add New Product
+            + List Bulk Product
           </Link>
           <Link to="/dashboard/farmer/inventory" className="btn btn-secondary">
-            Manage Inventory
+            Manage Products
           </Link>
           <Link to="/dashboard/farmer/sales" className="btn btn-secondary">
-            View Sales History
+            View Orders
           </Link>
         </div>
 

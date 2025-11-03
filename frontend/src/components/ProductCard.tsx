@@ -82,7 +82,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="product-stock">
           {quantityAvailable > 0 ? (
             <span className="in-stock">
-              {quantityAvailable} {unit} available
+              ✓ {quantityAvailable} {unit} available in bulk
             </span>
           ) : (
             <span className="out-of-stock">Out of stock</span>
@@ -90,7 +90,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         </div>
 
         <Link to={`/product/${_id}`} className="btn btn-view">
-          View Details
+          View Details & Order
         </Link>
       </div>
     </div>

@@ -1,25 +1,25 @@
 import React, { useState, useEffect, FormEvent, ChangeEvent } from 'react';
-import ProductCard from '../components/ProductCard';
-import { Product } from '../types';
+import TenderCard from '../components/TenderCard';
+import { Tender } from '../types';
 import api from '../utils/api';
 import './Marketplace.css';
 
 const Marketplace: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [tenders, setTenders] = useState<Tender[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>('');
   const [search, setSearch] = useState<string>('');
-  const [category, setCategory] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<string>('');
   const [sortBy, setSortBy] = useState<string>('createdAt');
 
-  const categories = ['All', 'Vegetables', 'Fruits', 'Grains', 'Dairy', 'Poultry', 'Other'];
+  const statusOptions = ['All', 'Open', 'Closed', 'Awarded'];
 
   useEffect(() => {
-    fetchProducts();
+    fetchTenders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [category, sortBy]);
+  }, [statusFilter, sortBy]);
 
-  const fetchProducts = async (): Promise<void> => {
+  const fetchTenders = async (): Promise<void> => {
     try {
       setLoading(true);
       const params: any = {
@@ -27,20 +27,20 @@ const Marketplace: React.FC = () => {
         order: 'desc'
       };
 
-      if (category && category !== 'All') {
-        params.category = category;
+      if (statusFilter && statusFilter !== 'All') {
+        params.status = statusFilter;
       }
 
       if (search) {
         params.search = search;
       }
 
-      const response = await api.get<{ data: Product[] }>('/products', { params });
-      setProducts(response.data.data);
+      const response = await api.get<{ data: Tender[] }>('/tenders', { params });
+      setTenders(response.data.data);
       setError('');
     } catch (err) {
-      console.error('Error fetching products:', err);
-      setError('Failed to load products. Please try again.');
+      console.error('Error fetching tenders:', err);
+      setError('Failed to load tenders. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -48,22 +48,22 @@ const Marketplace: React.FC = () => {
 
   const handleSearch = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
-    fetchProducts();
+    fetchTenders();
   };
 
   return (
     <div className="marketplace">
       <div className="container">
-        <div className="marketplace-header">
-          <h1>Marketplace</h1>
-          <p>Discover fresh products directly from farmers</p>
+                <div className="marketplace-header">
+          <h1>Bulk Farm Products Marketplace</h1>
+          <p>Discover bulk agricultural products directly from farmers - perfect for organizations, institutions, and businesses</p>
         </div>
 
         <div className="filters">
           <form onSubmit={handleSearch} className="search-form">
             <input
               type="text"
-              placeholder="Search products..."
+              placeholder="Search tenders..."
               value={search}
               onChange={(e: ChangeEvent<HTMLInputElement>) => setSearch(e.target.value)}
               className="search-input"
@@ -72,15 +72,15 @@ const Marketplace: React.FC = () => {
           </form>
 
           <div className="filter-group">
-            <label>Category:</label>
+            <label>Status:</label>
             <select 
-              value={category} 
-              onChange={(e: ChangeEvent<HTMLSelectElement>) => setCategory(e.target.value)}
+              value={statusFilter} 
+              onChange={(e: ChangeEvent<HTMLSelectElement>) => setStatusFilter(e.target.value)}
               className="filter-select"
             >
-              {categories.map(cat => (
-                <option key={cat} value={cat === 'All' ? '' : cat}>
-                  {cat}
+              {statusOptions.map((status: string) => (
+                <option key={status} value={status === 'All' ? '' : status}>
+                  {status}
                 </option>
               ))}
             </select>
@@ -94,24 +94,24 @@ const Marketplace: React.FC = () => {
               className="filter-select"
             >
               <option value="createdAt">Newest</option>
-              <option value="unitPrice">Price: Low to High</option>
-              <option value="name">Name</option>
+              <option value="closingDate">Closing Soon</option>
+              <option value="budgetRange.max">Budget: High to Low</option>
             </select>
           </div>
         </div>
 
         {loading ? (
-          <div className="loading">Loading products...</div>
+          <div className="loading">Loading tenders...</div>
         ) : error ? (
           <div className="error">{error}</div>
-        ) : products.length === 0 ? (
+        ) : tenders.length === 0 ? (
           <div className="no-products">
-            <p>No products found. Try adjusting your filters.</p>
+            <p>No tenders found. Try adjusting your filters.</p>
           </div>
         ) : (
           <div className="products-grid">
-            {products.map(product => (
-              <ProductCard key={product._id} product={product} />
+            {tenders.map((tender: Tender) => (
+              <TenderCard key={tender._id} tender={tender} />
             ))}
           </div>
         )}

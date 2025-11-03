@@ -49,7 +49,8 @@ const NewListingForm: React.FC = () => {
     <div className="new-listing-page">
       <div className="container">
         <div className="form-container">
-          <h1>Add New Product</h1>
+          <h1>List New Bulk Product</h1>
+          <p>List your agricultural products in bulk quantities for organizations and institutions</p>
 
           {error && <div className="error-message">{error}</div>}
 
@@ -62,7 +63,7 @@ const NewListingForm: React.FC = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                placeholder="e.g., Fresh Tomatoes"
+                placeholder="e.g., Fresh Tomatoes (Bulk Supply)"
               />
             </div>
 
@@ -73,7 +74,7 @@ const NewListingForm: React.FC = () => {
                 value={formData.description}
                 onChange={handleChange}
                 rows={4}
-                placeholder="Describe your product..."
+                placeholder="Describe your product quality, certifications, and bulk supply details..."
               />
             </div>
 
@@ -123,7 +124,7 @@ const NewListingForm: React.FC = () => {
               </div>
 
               <div className="form-group">
-                <label>Quantity Available *</label>
+                <label>Bulk Quantity Available *</label>
                 <input
                   type="number"
                   name="quantityAvailable"
@@ -131,8 +132,9 @@ const NewListingForm: React.FC = () => {
                   onChange={handleChange}
                   required
                   min="0"
-                  placeholder="0"
+                  placeholder="Minimum bulk quantity"
                 />
+                <small>Enter the bulk quantity available for institutional buyers</small>
               </div>
             </div>
 

@@ -10,15 +10,16 @@ const Home: React.FC = () => {
           <div className="hero-content">
             <h1>🌾 Welcome to AgriSmart</h1>
             <p className="hero-subtitle">
-              Connecting Farmers Directly with Buyers
+              Bulk Farm Products for Organizations & Institutions
             </p>
             <p className="hero-description">
-              Eliminate middlemen, ensure fair prices, and support local agriculture. 
-              Our marketplace promotes transparency and empowers farmers to earn what they deserve.
+              Connect directly with farmers for bulk agricultural supplies. Perfect for companies, 
+              schools, hospitals, restaurants, and institutions. Fresh products, transparent pricing, 
+              and reliable supply chains.
             </p>
             <div className="hero-buttons">
               <Link to="/marketplace" className="btn btn-primary btn-large">
-                Browse Marketplace
+                Browse Products
               </Link>
               <Link to="/register" className="btn btn-secondary btn-large">
                 Get Started
@@ -30,42 +31,42 @@ const Home: React.FC = () => {
 
       <section className="features">
         <div className="container">
-          <h2>Why Choose AgriSmart?</h2>
+          <h2>Why Choose AgriSmart for Bulk Purchasing?</h2>
           <div className="features-grid">
             <div className="feature-card">
-              <div className="feature-icon">💰</div>
-              <h3>Fair Pricing</h3>
-              <p>Transparent pricing that ensures farmers get paid fairly while buyers save money.</p>
+              <div className="feature-icon">🏢</div>
+              <h3>Bulk Supply</h3>
+              <p>Farmers post products in bulk quantities perfect for organizations and institutions.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">🤝</div>
-              <h3>Direct Connection</h3>
-              <p>Buy directly from farmers, eliminating middlemen and supporting local agriculture.</p>
+              <h3>Direct Sourcing</h3>
+              <p>Organizations buy directly from farmers, eliminating middlemen and reducing costs.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">📊</div>
               <h3>Price Transparency</h3>
-              <p>Compare farmer prices with market rates to see real savings and fair pricing.</p>
+              <p>Compare prices with market rates and see real savings for your institution.</p>
+            </div>
+
+            <div className="feature-card">
+              <div className="feature-icon">🎯</div>
+              <h3>For Organizations</h3>
+              <p>Perfect for schools, hospitals, restaurants, hotels, companies, and institutions.</p>
             </div>
 
             <div className="feature-card">
               <div className="feature-icon">🌱</div>
-              <h3>Fresh Products</h3>
-              <p>Access to fresh, quality products straight from the source to your table.</p>
+              <h3>Fresh & Quality</h3>
+              <p>Access fresh, quality agricultural products straight from verified farmers.</p>
             </div>
 
             <div className="feature-card">
-              <div className="feature-icon">🌍</div>
-              <h3>SDG Aligned</h3>
-              <p>Contributing to SDG 2 (Zero Hunger) and SDG 8 (Decent Work) goals.</p>
-            </div>
-
-            <div className="feature-card">
-              <div className="feature-icon">🚀</div>
-              <h3>Easy to Use</h3>
-              <p>Simple, intuitive platform for both farmers to list and buyers to purchase.</p>
+              <div className="feature-icon">📦</div>
+              <h3>Easy Ordering</h3>
+              <p>Browse products, place bulk orders, and manage deliveries all in one platform.</p>
             </div>
           </div>
         </div>
@@ -74,13 +75,13 @@ const Home: React.FC = () => {
       <section className="cta">
         <div className="container">
           <h2>Ready to Get Started?</h2>
-          <p>Join thousands of farmers and buyers making agriculture better for everyone.</p>
+          <p>Join organizations buying directly from farmers and support local agriculture.</p>
           <div className="cta-buttons">
             <Link to="/register" className="btn btn-primary btn-large">
-              Register as Farmer
+              Register as Buyer
             </Link>
             <Link to="/register" className="btn btn-light btn-large">
-              Register as Buyer
+              Register as Farmer
             </Link>
           </div>
         </div>

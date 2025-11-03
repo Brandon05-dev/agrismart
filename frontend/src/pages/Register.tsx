@@ -10,6 +10,8 @@ interface RegisterFormData {
   confirmPassword: string;
   role: 'Buyer' | 'Farmer';
   farmName: string;
+  organizationName?: string;
+  organizationType?: string;
   phone: string;
 }
 
@@ -21,6 +23,8 @@ const Register: React.FC = () => {
     confirmPassword: '',
     role: 'Buyer',
     farmName: '',
+    organizationName: '',
+    organizationType: '',
     phone: ''
   });
   const [error, setError] = useState<string>('');
@@ -51,6 +55,21 @@ const Register: React.FC = () => {
       return;
     }
 
+    if (formData.role === 'Farmer' && !formData.farmName) {
+      setError('Farm name is required for farmers');
+      return;
+    }
+
+    if (formData.role === 'Buyer' && !formData.organizationName) {
+      setError('Organization name is required for buyers');
+      return;
+    }
+
+    if (formData.role === 'Buyer' && !formData.organizationType) {
+      setError('Organization type is required for buyers');
+      return;
+    }
+
     setLoading(true);
 
     const userData = {
@@ -59,6 +78,8 @@ const Register: React.FC = () => {
       password: formData.password,
       role: formData.role,
       farmName: formData.farmName || undefined,
+      organizationName: formData.organizationName || undefined,
+      organizationType: formData.organizationType || undefined,
       phone: formData.phone || undefined
     };
 
@@ -143,14 +164,14 @@ const Register: React.FC = () => {
               onChange={handleChange}
               required
             >
-              <option value="Buyer">Buyer</option>
+              <option value="Buyer">Buyer (Organization/Institution)</option>
               <option value="Farmer">Farmer</option>
             </select>
           </div>
 
           {formData.role === 'Farmer' && (
             <div className="form-group">
-              <label>Farm Name</label>
+              <label>Farm Name *</label>
               <input
                 type="text"
                 name="farmName"
@@ -160,6 +181,75 @@ const Register: React.FC = () => {
                 placeholder="Enter your farm name"
               />
             </div>
+          )}
+
+          {formData.role === 'Buyer' && (
+            <>
+              <div className="form-group">
+                <label>Organization Name *</label>
+                <input
+                  type="text"
+                  name="organizationName"
+                  value={formData.organizationName || ''}
+                  onChange={handleChange}
+                  required
+                  placeholder="Company, School, Hospital, etc."
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Organization Type *</label>
+                <select
+                  name="organizationType"
+                  value={formData.organizationType || ''}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select Type</option>
+                  <option value="Company">Company/Corporation</option>
+                  <option value="School">School/University</option>
+                  <option value="Hospital">Hospital/Healthcare</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Hotel">Hotel</option>
+                  <option value="Institution">Government Institution</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </>
+          )}
+
+          {formData.role === 'Buyer' && (
+            <>
+              <div className="form-group">
+                <label>Organization Name</label>
+                <input
+                  type="text"
+                  name="organizationName"
+                  value={formData.organizationName}
+                  onChange={handleChange}
+                  required
+                  placeholder="Enter your organization name"
+                />
+              </div>
+
+              <div className="form-group">
+                <label>Organization Type</label>
+                <select
+                  name="organizationType"
+                  value={formData.organizationType}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="Company">Company</option>
+                  <option value="Institution">Institution</option>
+                  <option value="School">School</option>
+                  <option value="Hospital">Hospital</option>
+                  <option value="Restaurant">Restaurant</option>
+                  <option value="Hotel">Hotel</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </>
           )}
 
           <div className="form-group">
