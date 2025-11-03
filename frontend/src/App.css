@@ -5,17 +5,19 @@
 }
 
 :root {
-  --primary-color: #f68b1e;
-  --primary-dark: #e67a0f;
-  --secondary-color: #282c3f;
-  --accent-color: #ff6b6b;
-  --success-color: #51a351;
-  --text-dark: #282c3f;
-  --text-light: #696b79;
-  --bg-light: #f5f5f5;
-  --border-color: #e0e0e0;
-  --shadow: 0 2px 8px rgba(0,0,0,0.1);
-  --shadow-hover: 0 4px 16px rgba(0,0,0,0.15);
+  --primary-color: #4a7c59;
+  --primary-dark: #2d5f3e;
+  --primary-light: #6b9e78;
+  --secondary-color: #8bc34a;
+  --accent-color: #ff9800;
+  --success-color: #66bb6a;
+  --text-dark: #2e3b2e;
+  --text-light: #5a6c5b;
+  --bg-light: #f5f8f5;
+  --bg-white: #ffffff;
+  --border-color: #d4e2d4;
+  --shadow: 0 2px 8px rgba(74, 124, 89, 0.1);
+  --shadow-hover: 0 4px 16px rgba(74, 124, 89, 0.15);
 }
 
 body {
@@ -52,13 +54,13 @@ main {
 }
 
 .error-message {
-  background-color: #fff3f3;
-  color: #d32f2f;
+  background-color: #ffebee;
+  color: #c62828;
   padding: 1rem;
   border-radius: 8px;
   margin-bottom: 1rem;
   text-align: center;
-  border: 1px solid #ffcdd2;
+  border: 1px solid #ef5350;
 }
 
 .not-found {
@@ -73,7 +75,7 @@ main {
 .btn {
   padding: 0.75rem 1.5rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
@@ -92,35 +94,33 @@ main {
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
-  box-shadow: 0 2px 4px rgba(246, 139, 30, 0.2);
+  box-shadow: 0 2px 4px rgba(74, 124, 89, 0.2);
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(246, 139, 30, 0.3);
+  box-shadow: 0 4px 8px rgba(74, 124, 89, 0.3);
 }
 
 .btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #7cb342;
+}
+
+.btn-light {
   background-color: white;
   color: var(--primary-color);
   border: 2px solid var(--primary-color);
 }
 
-.btn-secondary:hover:not(:disabled) {
+.btn-light:hover:not(:disabled) {
   background-color: var(--primary-color);
   color: white;
-}
-
-.btn-light {
-  background-color: white;
-  color: var(--text-dark);
-  border: 2px solid var(--border-color);
-}
-
-.btn-light:hover:not(:disabled) {
-  border-color: var(--primary-color);
-  color: var(--primary-color);
 }
 
 .btn-large {
@@ -149,4 +149,93 @@ main {
 
 .text-muted {
   color: var(--text-light);
+}
+
+/* Tablet Screens */
+@media (max-width: 1024px) {
+  .container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .btn-large {
+    padding: 0.9rem 1.75rem;
+    font-size: 1.05rem;
+  }
+
+  .loading {
+    padding: 3rem 1.5rem;
+  }
+}
+
+/* Mobile Screens */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 0.75rem;
+  }
+
+  .loading {
+    padding: 2rem 1rem;
+    font-size: 1rem;
+  }
+
+  .error-message {
+    padding: 0.875rem;
+    font-size: 0.9rem;
+  }
+
+  .not-found {
+    padding: 3rem 1.5rem;
+    margin: 1rem auto;
+  }
+
+  .btn {
+    padding: 0.65rem 1.2rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-large {
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-view {
+    padding: 0.55rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+  body {
+    font-size: 13px;
+  }
+
+  .container {
+    padding: 0 0.5rem;
+  }
+
+  .loading {
+    padding: 1.5rem 0.75rem;
+    font-size: 0.95rem;
+  }
+
+  .not-found {
+    padding: 2rem 1rem;
+  }
+
+  .btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
+  }
+
+  .btn-large {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.95rem;
+  }
 }

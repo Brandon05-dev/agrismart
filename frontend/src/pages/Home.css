@@ -4,7 +4,7 @@
 
 /* Hero Banner */
 .hero-banner {
-  background: linear-gradient(135deg, #f68b1e 0%, #e67a0f 100%);
+  background: linear-gradient(135deg, #4a7c59 0%, #2d5f3e 100%);
   padding: 0;
   margin-bottom: 2rem;
 }
@@ -236,7 +236,7 @@
 /* CTA Section */
 .cta-section {
   padding: 4rem 0;
-  background: linear-gradient(135deg, #f68b1e 0%, #e67a0f 100%);
+  background: linear-gradient(135deg, #4a7c59 0%, #2d5f3e 100%);
   margin-bottom: 0;
 }
 
@@ -298,6 +298,42 @@
 }
 
 /* Responsive Design */
+/* Tablet Screens */
+@media (max-width: 1024px) {
+  .hero-content {
+    gap: 1.5rem;
+    padding: 2.5rem 0;
+  }
+
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-text p {
+    font-size: 1.1rem;
+  }
+
+  .btn-hero {
+    padding: 0.9rem 2.5rem;
+    font-size: 1rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .products-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .benefits-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+/* Mobile Screens */
 @media (max-width: 768px) {
   .hero-content {
     grid-template-columns: 1fr;
@@ -314,8 +350,28 @@
     font-size: 1rem;
   }
 
+  .btn-hero {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
+
   .hero-image {
     display: none;
+  }
+
+  .categories-section,
+  .featured-section,
+  .benefits-section {
+    padding: 2rem 0;
+  }
+
+  .cta-section {
+    padding: 3rem 0;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
   }
 
   .categories-grid {
@@ -323,23 +379,39 @@
     gap: 1rem;
   }
 
+  .category-card {
+    padding: 1.5rem 0.75rem;
+  }
+
   .category-icon {
     width: 60px;
     height: 60px;
   }
 
-  .section-title {
-    font-size: 1.5rem;
+  .category-card h3 {
+    font-size: 1rem;
   }
 
   .products-grid {
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 1rem;
   }
 
   .benefits-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .benefit-card {
+    padding: 1.5rem;
+  }
+
+  .benefit-icon {
+    font-size: 2.5rem;
+  }
+
+  .benefit-card h3 {
+    font-size: 1.2rem;
   }
 
   .cta-content h2 {
@@ -359,5 +431,109 @@
   .btn-cta-secondary {
     width: 100%;
     padding: 0.875rem 2rem;
+  }
+
+  .see-all-link {
+    font-size: 0.9rem;
+  }
+
+  .no-products {
+    padding: 3rem 1.5rem;
+  }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+  .hero-text h1 {
+    font-size: 1.6rem;
+  }
+
+  .hero-text p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-hero {
+    padding: 0.75rem 1.75rem;
+    font-size: 0.9rem;
+  }
+
+  .categories-section,
+  .featured-section,
+  .benefits-section {
+    padding: 1.5rem 0;
+  }
+
+  .cta-section {
+    padding: 2.5rem 0;
+  }
+
+  .section-title {
+    font-size: 1.3rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .category-card {
+    padding: 1.25rem 0.5rem;
+  }
+
+  .category-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 0.75rem;
+  }
+
+  .category-card h3 {
+    font-size: 0.9rem;
+  }
+
+  .products-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .benefit-card {
+    padding: 1.25rem;
+  }
+
+  .benefit-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .benefit-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .benefit-card p {
+    font-size: 0.9rem;
+  }
+
+  .cta-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .cta-content p {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .btn-cta-primary,
+  .btn-cta-secondary {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .no-products {
+    padding: 2rem 1rem;
+  }
+
+  .no-products p {
+    font-size: 1rem;
   }
 }

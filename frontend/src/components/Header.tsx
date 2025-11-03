@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Sprout } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Header.css';
 
@@ -11,7 +12,7 @@ const Header: React.FC = () => {
       <div className="container">
         <div className="header-content">
           <Link to="/" className="logo">
-            <h1>🌾 AgriSmart</h1>
+            <h1><Sprout size={28} strokeWidth={2} style={{ marginRight: '8px' }} /> AgriSmart</h1>
           </Link>
 
                     <nav className="nav">

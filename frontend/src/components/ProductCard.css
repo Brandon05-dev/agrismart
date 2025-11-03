@@ -203,9 +203,21 @@
   box-shadow: 0 4px 12px rgba(246, 139, 30, 0.3);
 }
 
+/* Tablet Screens */
+@media (max-width: 1024px) {
+  .product-image {
+    height: 200px;
+  }
+}
+
+/* Mobile Screens */
 @media (max-width: 768px) {
   .product-image {
     height: 180px;
+  }
+
+  .product-image .no-image {
+    font-size: 2.5rem;
   }
 
   .product-info {
@@ -216,7 +228,54 @@
     font-size: 1rem;
   }
 
+  .product-category {
+    font-size: 0.8rem;
+  }
+
+  .product-description {
+    font-size: 0.85rem;
+  }
+
   .price {
     font-size: 1.5rem;
+  }
+
+  .unit {
+    font-size: 0.85rem;
+  }
+
+  .savings-badge {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+
+  .btn-view {
+    padding: 0.7rem;
+    font-size: 0.95rem;
+  }
+}
+
+/* Small Mobile Screens */
+@media (max-width: 480px) {
+  .product-image {
+    height: 160px;
+  }
+
+  .product-info {
+    padding: 0.875rem;
+  }
+
+  .product-name {
+    font-size: 0.95rem;
+  }
+
+  .price {
+    font-size: 1.3rem;
+  }
+
+  .price-comparison {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.4rem;
   }
 }

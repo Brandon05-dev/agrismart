@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { Leaf, Apple, Wheat, Milk, Bird, Sprout, Truck, DollarSign, CheckCircle, TrendingUp } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import { Product } from '../types';
 import api from '../utils/api';
@@ -31,12 +32,12 @@ const Home: React.FC = () => {
   };
 
   const categories = [
-    { name: 'Vegetables', icon: '🥬', color: '#4caf50' },
-    { name: 'Fruits', icon: '🍎', color: '#ff9800' },
-    { name: 'Grains', icon: '🌾', color: '#795548' },
-    { name: 'Dairy', icon: '🥛', color: '#2196f3' },
-    { name: 'Poultry', icon: '🐔', color: '#f44336' },
-    { name: 'Other', icon: '🌱', color: '#9c27b0' }
+    { name: 'Vegetables', icon: Leaf, color: '#4caf50' },
+    { name: 'Fruits', icon: Apple, color: '#ff9800' },
+    { name: 'Grains', icon: Wheat, color: '#795548' },
+    { name: 'Dairy', icon: Milk, color: '#2196f3' },
+    { name: 'Poultry', icon: Bird, color: '#f44336' },
+    { name: 'Other', icon: Sprout, color: '#9c27b0' }
   ];
 
   return (
@@ -54,7 +55,7 @@ const Home: React.FC = () => {
             </div>
             <div className="hero-image">
               <div className="hero-badge">
-                <span className="badge-icon">🌾</span>
+                <Wheat size={64} color="#4a7c59" strokeWidth={2} />
                 <div>
                   <div className="badge-title">Fresh & Direct</div>
                   <div className="badge-subtitle">From Local Farmers</div>
@@ -70,19 +71,22 @@ const Home: React.FC = () => {
         <div className="container">
           <h2 className="section-title">Shop by Category</h2>
           <div className="categories-grid">
-            {categories.map((category) => (
-              <Link
-                key={category.name}
-                to={`/marketplace?category=${category.name}`}
-                className="category-card"
-                style={{ borderTopColor: category.color }}
-              >
-                <div className="category-icon" style={{ backgroundColor: `${category.color}20` }}>
-                  <span style={{ fontSize: '2.5rem' }}>{category.icon}</span>
-                </div>
-                <h3>{category.name}</h3>
-              </Link>
-            ))}
+            {categories.map((category) => {
+              const Icon = category.icon;
+              return (
+                <Link
+                  key={category.name}
+                  to={`/marketplace?category=${category.name}`}
+                  className="category-card"
+                  style={{ borderTopColor: category.color }}
+                >
+                  <div className="category-icon" style={{ backgroundColor: `${category.color}20` }}>
+                    <Icon size={48} color={category.color} strokeWidth={2} />
+                  </div>
+                  <h3>{category.name}</h3>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -122,22 +126,30 @@ const Home: React.FC = () => {
           <h2 className="section-title">Why Choose AgriSmart?</h2>
           <div className="benefits-grid">
             <div className="benefit-card">
-              <div className="benefit-icon">🚚</div>
+              <div className="benefit-icon">
+                <Truck size={48} color="#4a7c59" strokeWidth={2} />
+              </div>
               <h3>Bulk Orders</h3>
               <p>Large quantities for organizations, schools, and institutions</p>
             </div>
             <div className="benefit-card">
-              <div className="benefit-icon">💰</div>
+              <div className="benefit-icon">
+                <DollarSign size={48} color="#4a7c59" strokeWidth={2} />
+              </div>
               <h3>Best Prices</h3>
               <p>Direct from farmers - no middlemen markup</p>
             </div>
             <div className="benefit-card">
-              <div className="benefit-icon">✓</div>
+              <div className="benefit-icon">
+                <CheckCircle size={48} color="#4a7c59" strokeWidth={2} />
+              </div>
               <h3>Quality Assured</h3>
               <p>Fresh products from verified farmers</p>
             </div>
             <div className="benefit-card">
-              <div className="benefit-icon">📊</div>
+              <div className="benefit-icon">
+                <TrendingUp size={48} color="#4a7c59" strokeWidth={2} />
+              </div>
               <h3>Transparent Pricing</h3>
               <p>Compare with market rates and see real savings</p>
             </div>
