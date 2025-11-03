@@ -31,6 +31,7 @@ app.use('/api/products', require('./routes/product'));
 app.use('/api/farmer', require('./routes/farmer'));
 app.use('/api/orders', require('./routes/order'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/cart', require('./routes/cart'));
 
 // Root route
 app.get('/', (req, res) => {
@@ -42,7 +43,8 @@ app.get('/', (req, res) => {
       products: '/api/products',
       farmer: '/api/farmer',
       orders: '/api/orders',
-      admin: '/api/admin'
+      admin: '/api/admin',
+      cart: '/api/cart'
     }
   });
 });

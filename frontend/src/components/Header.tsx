@@ -1,11 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Sprout } from 'lucide-react';
+import { Sprout, ShoppingCart } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { useCart } from '../context/CartContext';
 import './Header.css';
 
 const Header: React.FC = () => {
   const { user, logout, isAuthenticated, isFarmer } = useAuth();
+  const { getCartItemCount } = useCart();
+  const cartItemCount = getCartItemCount();
 
   return (
     <header className="header">
@@ -17,6 +20,14 @@ const Header: React.FC = () => {
 
                     <nav className="nav">
             <Link to="/marketplace" className="nav-link">Browse Products</Link>
+            
+            {/* Cart Icon */}
+            <Link to="/cart" className="cart-link">
+              <ShoppingCart size={24} />
+              {cartItemCount > 0 && (
+                <span className="cart-badge">{cartItemCount}</span>
+              )}
+            </Link>
             
             {isAuthenticated ? (
               <>

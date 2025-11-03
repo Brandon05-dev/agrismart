@@ -39,6 +39,28 @@ export interface ProductFormData {
   imageUrl: string;
 }
 
+// Cart types
+export interface CartItem {
+  _id?: string;
+  productId: string | Product;
+  name: string;
+  quantity: number;
+  unitPrice: number;
+  unit: string;
+  imageUrl?: string;
+  farmerId?: User | string;
+  subtotal: number;
+}
+
+export interface Cart {
+  _id?: string;
+  userId: string;
+  items: CartItem[];
+  totalItems: number;
+  totalAmount: number;
+  updatedAt?: string;
+}
+
 // Tender types
 export interface TenderRequirement {
   productCategory: string;

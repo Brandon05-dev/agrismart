@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { CartProvider } from './context/CartContext';
 import { ProtectedRoute, PublicRoute } from './components/ProtectedRoute';
 import Header from './components/Header';
 
@@ -9,6 +10,9 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Marketplace from './pages/Marketplace';
+import Cart from './pages/Cart';
+import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
 import FarmerDashboard from './pages/FarmerDashboard';
 import NewListingForm from './pages/NewListingForm';
 import InventoryTable from './pages/InventoryTable';
@@ -20,13 +24,33 @@ function App() {
   return (
     <Router>
       <AuthProvider>
-        <div className="App">
-          <Header />
-          <main>
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/marketplace" element={<Marketplace />} />
+        <CartProvider>
+          <div className="App">
+            <Header />
+            <main>
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/marketplace" element={<Marketplace />} />
+                <Route path="/cart" element={<Cart />} />
+                
+                {/* Checkout Routes - Protected for Buyers */}
+                <Route 
+                  path="/checkout" 
+                  element={
+                    <ProtectedRoute requiredRole="Buyer">
+                      <Checkout />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/order-confirmation/:orderId" 
+                  element={
+                    <ProtectedRoute requiredRole="Buyer">
+                      <OrderConfirmation />
+                    </ProtectedRoute>
+                  } 
+                />
               
               {/* Auth Routes - Redirect if already logged in */}
               <Route 
@@ -93,6 +117,7 @@ function App() {
             </Routes>
           </main>
         </div>
+        </CartProvider>
       </AuthProvider>
     </Router>
   );

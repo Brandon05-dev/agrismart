@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { ShoppingCart, Plus, Minus } from 'lucide-react';
 import { Product, User } from '../types';
+import { useCart } from '../context/CartContext';
 import './ProductCard.css';
 
 interface ProductCardProps {
@@ -8,6 +10,9 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const { addToCart } = useCart();
+  const [quantity, setQuantity] = useState<number>(1);
+  const [adding, setAdding] = useState<boolean>(false);
   const {
     _id,
     name,
@@ -32,6 +37,41 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       return 'Unknown Farmer';
     }
     return (farmerId as User).farmName || (farmerId as User).username;
+  };
+
+  const handleAddToCart = async () => {
+    if (quantity < 1) {
+      alert('Please select a valid quantity');
+      return;
+    }
+
+    if (quantity > quantityAvailable) {
+      alert(`Only ${quantityAvailable} ${unit} available`);
+      return;
+    }
+
+    try {
+      setAdding(true);
+      await addToCart(_id, quantity);
+      alert(`Added ${quantity} ${unit} of ${name} to cart!`);
+      setQuantity(1); // Reset quantity
+    } catch (error: any) {
+      alert(error.message || 'Failed to add to cart');
+    } finally {
+      setAdding(false);
+    }
+  };
+
+  const incrementQuantity = () => {
+    if (quantity < quantityAvailable) {
+      setQuantity(quantity + 1);
+    }
+  };
+
+  const decrementQuantity = () => {
+    if (quantity > 1) {
+      setQuantity(quantity - 1);
+    }
   };
 
   return (
@@ -89,8 +129,50 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           )}
         </div>
 
+        {quantityAvailable > 0 && (
+          <div className="product-cart-controls">
+            <div className="quantity-selector">
+              <button
+                onClick={decrementQuantity}
+                disabled={quantity <= 1}
+                className="qty-btn"
+              >
+                <Minus size={16} />
+              </button>
+              <input
+                type="number"
+                value={quantity}
+                onChange={(e) => {
+                  const val = parseInt(e.target.value) || 1;
+                  if (val >= 1 && val <= quantityAvailable) {
+                    setQuantity(val);
+                  }
+                }}
+                min="1"
+                max={quantityAvailable}
+                className="qty-input"
+              />
+              <button
+                onClick={incrementQuantity}
+                disabled={quantity >= quantityAvailable}
+                className="qty-btn"
+              >
+                <Plus size={16} />
+              </button>
+            </div>
+            <button
+              onClick={handleAddToCart}
+              disabled={adding}
+              className="btn btn-add-to-cart"
+            >
+              <ShoppingCart size={18} />
+              {adding ? 'Adding...' : 'Add to Cart'}
+            </button>
+          </div>
+        )}
+
         <Link to={`/product/${_id}`} className="btn btn-view">
-          View Details & Order
+          View Details
         </Link>
       </div>
     </div>

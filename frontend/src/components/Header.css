@@ -48,6 +48,37 @@
   position: relative;
 }
 
+.cart-link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--text-dark);
+  text-decoration: none;
+  transition: all 0.3s;
+  padding: 0.5rem;
+  border-radius: 8px;
+}
+
+.cart-link:hover {
+  color: var(--primary-color);
+  background-color: rgba(74, 124, 89, 0.1);
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.15rem 0.4rem;
+  border-radius: 10px;
+  min-width: 18px;
+  text-align: center;
+  line-height: 1;
+}
+
 .nav-link:hover {
   color: var(--primary-color);
 }

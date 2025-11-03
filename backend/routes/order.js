@@ -2,7 +2,113 @@ const express = require('express');
 const router = express.Router();
 const Order = require('../models/Order');
 const Product = require('../models/Product');
+const Cart = require('../models/Cart');
 const { auth, isBuyer } = require('../middleware/auth');
+
+// @route   POST /api/orders/checkout
+// @desc    Create order from cart (checkout process)
+// @access  Private (Buyer only)
+router.post('/checkout', auth, isBuyer, async (req, res) => {
+  try {
+    const { items, shippingAddress, contactInfo, deliveryNotes, totalAmount } = req.body;
+
+    // Validation
+    if (!items || items.length === 0) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Cart is empty' 
+      });
+    }
+
+    if (!shippingAddress || !shippingAddress.street || !shippingAddress.city) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Complete shipping address is required' 
+      });
+    }
+
+    // Validate products and check stock
+    const orderItems = [];
+    let calculatedTotal = 0;
+
+    for (const item of items) {
+      const product = await Product.findById(item.productId);
+
+      if (!product) {
+        return res.status(404).json({ 
+          success: false,
+          message: `Product not found: ${item.productName}` 
+        });
+      }
+
+      if (!product.isAvailable) {
+        return res.status(400).json({ 
+          success: false,
+          message: `Product not available: ${product.name}` 
+        });
+      }
+
+      if (product.quantityAvailable < item.quantity) {
+        return res.status(400).json({ 
+          success: false,
+          message: `Insufficient stock for ${product.name}. Available: ${product.quantityAvailable}` 
+        });
+      }
+
+      const subtotal = product.unitPrice * item.quantity;
+      calculatedTotal += subtotal;
+
+      orderItems.push({
+        productId: product._id,
+        productName: product.name,
+        farmerId: product.farmerId,
+        quantity: item.quantity,
+        unitPrice: product.unitPrice,
+        subtotal
+      });
+
+      // Update product quantity
+      product.quantityAvailable -= item.quantity;
+      if (product.quantityAvailable === 0) {
+        product.isAvailable = false;
+      }
+      await product.save();
+    }
+
+    // Create order
+    const order = await Order.create({
+      buyerId: req.user._id,
+      products: orderItems,
+      totalAmount: calculatedTotal,
+      shippingAddress,
+      paymentMethod: 'Cash on Delivery',
+      notes: deliveryNotes || ''
+    });
+
+    // Clear user's cart after successful order
+    await Cart.findOneAndUpdate(
+      { userId: req.user._id },
+      { items: [], totalItems: 0, totalAmount: 0 }
+    );
+
+    // Populate order details
+    await order.populate('buyerId', 'username email phone');
+    await order.populate('products.productId', 'name imageUrl');
+
+    res.status(201).json({
+      success: true,
+      message: 'Order placed successfully',
+      data: order
+    });
+  } catch (error) {
+    console.error('Checkout error:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Error processing checkout',
+      error: error.message 
+    });
+  }
+});
 
 // @route   POST /api/orders
 // @desc    Create a new order
