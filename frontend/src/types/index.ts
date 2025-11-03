@@ -148,13 +148,13 @@ export interface LoginCredentials {
 
 export interface RegisterData {
   username: string;
-  email: string;
+  email?: string;
+  phone?: string;
   password: string;
   role: 'Farmer' | 'Buyer';
   farmName?: string;
   organizationName?: string;
   organizationType?: string;
-  phone?: string;
 }
 
 export interface AuthResponse {
@@ -162,6 +162,8 @@ export interface AuthResponse {
   user?: User;
   token?: string;
   message?: string;
+  requiresVerification?: boolean;
+  userId?: string;
 }
 
 // Dashboard types

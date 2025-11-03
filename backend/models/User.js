@@ -11,22 +11,39 @@ const userSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, 'Email is required'],
     unique: true,
+    sparse: true, // Allow null for phone-only users
     lowercase: true,
     trim: true,
     match: [/^\S+@\S+\.\S+$/, 'Please enter a valid email']
   },
   password: {
     type: String,
-    required: [true, 'Password is required'],
     minlength: [6, 'Password must be at least 6 characters long']
+    // Not required for OAuth users
   },
   role: {
     type: String,
     enum: ['Farmer', 'Buyer'],
     default: 'Buyer',
     required: true
+  },
+  // OAuth fields
+  googleId: {
+    type: String,
+    unique: true,
+    sparse: true
+  },
+  // OTP verification fields
+  otpCode: {
+    type: String
+  },
+  otpExpiry: {
+    type: Date
+  },
+  verified: {
+    type: Boolean,
+    default: false
   },
   farmName: {
     type: String,
@@ -38,6 +55,8 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
+    unique: true,
+    sparse: true, // Allow null for email-only users
     trim: true
   },
   address: {
@@ -55,9 +74,18 @@ const userSchema = new mongoose.Schema({
   timestamps: true
 });
 
+// Validate that at least email or phone is provided
+userSchema.pre('save', function(next) {
+  if (!this.email && !this.phone) {
+    return next(new Error('Either email or phone number is required'));
+  }
+  next();
+});
+
 // Hash password before saving
 userSchema.pre('save', async function(next) {
-  if (!this.isModified('password')) {
+  // Only hash password if it exists and is modified
+  if (!this.password || !this.isModified('password')) {
     return next();
   }
   
